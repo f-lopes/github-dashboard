@@ -1,0 +1,8 @@
+development:
+	host: 'ds059907.mongolab.com.com:59907'
+	database: 'chat'
+
+#test:
+
+
+#production:
