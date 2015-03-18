@@ -1,6 +1,6 @@
-development:
-	host: 'ds059907.mongolab.com.com:59907'
-	database: 'chat'
+#development:
+	#host: 'ds059907.mongolab.com.com:59907'
+	#database: 'chat'
 
 #test:
 

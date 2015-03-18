@@ -79,6 +79,11 @@ GEM
     minitest (5.5.1)
     mongo (1.12.0)
       bson (= 1.12.0)
+    mongo_mapper (0.13.1)
+      activemodel (>= 3.0.0)
+      activesupport (>= 3.0)
+      mongo (~> 1.8)
+      plucky (~> 0.6.5)
     mongoid (1.0.6)
       activesupport (>= 2.2.2)
       durran-validatable (>= 2.0.1)
@@ -87,6 +92,8 @@ GEM
     multi_json (1.11.0)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
+    plucky (0.6.6)
+      mongo (~> 1.5)
     rack (1.6.0)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -162,6 +169,7 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   jbuilder (~> 2.0)
   jquery-rails
+  mongo_mapper
   mongoid
   rails (= 4.2.0)
   sass-rails (~> 5.0)

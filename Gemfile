@@ -31,6 +31,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 
 gem 'mongoid'
+gem 'mongo_mapper'
 gem 'bson_ext'
 
 group :development, :test do
