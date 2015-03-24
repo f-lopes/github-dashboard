@@ -1,13 +1,15 @@
 <html>
-<head>
-<title>Dashboard</title>
-</head>
-<body>
-<h2>All actors</h2>
-<%= @actors.count() %>
- <% @actors.each do |actor| %>
-<%= actor['login'] %>
-<br/>
-<% end %>
-</body>
+    <head>
+        <title>Dashboard</title>
+        <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
+    </head>
+    <body>
+        <h2>Dashboard</h2>
+        
+        <% @data.each do |event| %>
+            <%=event['type'] %>
+            <br/>
+        <% end %>
+    </body>
 </html>
+

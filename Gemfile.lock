@@ -43,8 +43,9 @@ GEM
     bson_ext (1.12.0)
       bson (~> 1.12.0)
     builder (3.2.2)
-    byebug (4.0.2)
+    byebug (4.0.3)
       columnize (= 0.9.0)
+    chartkick (1.3.2)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -60,7 +61,7 @@ GEM
       activesupport (>= 4.1.0)
     hike (1.2.3)
     i18n (0.7.0)
-    jbuilder (2.2.11)
+    jbuilder (2.2.12)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
     jquery-rails (4.0.3)
@@ -116,7 +117,6 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
     rdoc (4.2.0)
-      json (~> 1.4)
     sass (3.4.13)
     sass-rails (5.0.1)
       railties (>= 4.0.0, < 5.0)
@@ -152,6 +152,7 @@ GEM
       binding_of_caller (>= 0.7.2)
       railties (>= 4.0)
       sprockets-rails (>= 2.0, < 4.0)
+    yajl-ruby (1.2.1)
 
 PLATFORMS
   ruby
@@ -159,6 +160,7 @@ PLATFORMS
 DEPENDENCIES
   bson_ext
   byebug
+  chartkick
   coffee-rails (~> 4.1.0)
   jbuilder (~> 2.0)
   jquery-rails
@@ -170,3 +172,4 @@ DEPENDENCIES
   turbolinks
   uglifier (>= 1.3.0)
   web-console (~> 2.0)
+  yajl-ruby
