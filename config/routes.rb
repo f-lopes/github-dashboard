@@ -8,6 +8,10 @@ Rails.application.routes.draw do
 
   get '/events/:id' => 'events#show', as: :id
 
+  get '/events-count' => 'events#count'
+
+  get '/events-by-type/:type' =>  'events#events_by_type', as: :type
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

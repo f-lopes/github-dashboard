@@ -8,16 +8,28 @@ require 'json'
 class EventsController < ActionController::Base
 
   def index
-    @events = Event.count()
+    @events = Event.all()
     render json: @events
   end
 
   def show
     @event = Event.find(params[:id])
+    render json: @event
   end
 
-  def events_by_path(type)
+  def count
+    @nb_events = Event.count()
+    render json: @nb_events
+  end
+
+  def events_by_type(type)
     @events = Event.all(:type => type)
+    render json: @events
+  end
+
+  def count_events_by_type(type)
+    @nb_events_by_type = Event.count(:type => type)
+    render json: @nb_events_by_type
   end
 
   #gz = open('http://data.githubarchive.org/2015-01-01-12.json.gz')
