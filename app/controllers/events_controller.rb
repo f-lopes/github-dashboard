@@ -22,13 +22,13 @@ class EventsController < ActionController::Base
     render json: @nb_events
   end
 
-  def events_by_type(type)
-    @events = Event.all(:type => type)
+  def events_by_type
+    @events = Event.all(:type => params[:type])
     render json: @events
   end
 
-  def count_events_by_type(type)
-    @nb_events_by_type = Event.count(:type => type)
+  def count_events_by_type
+    @nb_events_by_type = Event.count(:type => params[:type])
     render json: @nb_events_by_type
   end
 

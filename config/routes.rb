@@ -12,6 +12,8 @@ Rails.application.routes.draw do
 
   get '/events-by-type/:type' =>  'events#events_by_type', as: :type
 
+  get '/events-count-by-type/:type' =>  'events#count_events_by_type', as: :type
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
