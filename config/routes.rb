@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   # root 'welcome#index'
   get '/events' => 'events#index'
 
+  get '/events/:id' => 'events#show', as: :id
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
