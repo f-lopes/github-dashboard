@@ -28,7 +28,7 @@ class EventsController < ActionController::Base
   end
 
   def count_events_by_type
-    @nb_events_by_type = Event.count(:type => params[:type])
+    @nb_events_by_type = Event.count(:type => params[:count_type])
     render json: @nb_events_by_type
   end
 

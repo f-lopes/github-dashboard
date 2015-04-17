@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
+  get '/' => 'application#index'
+
   get '/events' => 'events#index'
 
   get '/events/:id' => 'events#show', as: :id
@@ -12,7 +14,7 @@ Rails.application.routes.draw do
 
   get '/events-by-type/:type' =>  'events#events_by_type', as: :type
 
-  get '/events-count-by-type/:type' =>  'events#count_events_by_type', as: :type
+  get '/events-count-by-type/:count_type' =>  'events#count_events_by_type', as: :count_type
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
