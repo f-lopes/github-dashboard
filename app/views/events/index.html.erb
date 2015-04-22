@@ -41,14 +41,14 @@
         <div class="circleContainer">
           <h6 class="logo ir ">Activities</h6>
 
-          <div id="circleActivities" class="circle profitCircle" data-type="profit" style="width: 111.81300000000002px; height: 111.81300000000002px; left:-55.90650000000001px; top:-55.90650000000001px;" data-pd="111.81300000000002">
+          <div id="circleActivities" class="circle profitCircle" data-type="profit" style="width: 0; height: 0; left:0; top:0;">
           </div>
-          <div class="circle revenueCircle small" data-type="revenue" style="width: 247.442px; height: 247.442px; left:-123.721px; top:-123.721px;" data-rd="247.442">
+          <div class="circle revenueCircle small" data-type="revenue" style="width: 247.442px; height: 247.442px; left:-123.721px; top:-123.721px;">
           </div>
           <div class="numberContainer">
-            <span class="number profit ">Activities: <strong id="counterActivities" data-circle="circleActivities">25</strong></span>
+            <span class="number profit ">Activities: <strong id="counterActivities" data-circle="circleActivities">0</strong></span>
             <br>
-            <span class="number revenue "></strong></span>
+            <span class="number revenue "></span>
             <br>
           </div>
         </div>
@@ -58,12 +58,12 @@
         <div class="circleContainer">
           <h6 class="logo ir ">Repositories</h6>
 
-          <div id="circleRepositories" class="circle profitCircle" data-type="profit" style="width: 39.182px; height: 39.182px; left:-19.591px; top:-19.591px;" data-pd="39.182">
+          <div id="circleRepositories" class="circle profitCircle" data-type="profit" style="width: 0; height: 0; left:0; top:0;">
           </div>
-          <div class="circle revenueCircle small" data-type="revenue" style="width: 89.765px; height: 89.765px; left:-44.8825px; top:-44.8825px;" data-rd="89.765">
+          <div class="circle revenueCircle small" data-type="revenue" style="width: 89.765px; height: 89.765px; left:-44.8825px; top:-44.8825px;">
           </div>
           <div class="numberContainer">
-            <span class="number profit ">Repositories: <strong id="counterRepositories" data-circle="circleRepositories">9</strong></span>
+            <span class="number profit ">Repositories: <strong id="counterRepositories" data-circle="circleRepositories">0</strong></span>
             <br>
             <span class="number revenue "></span>
             <br>
@@ -75,14 +75,14 @@
         <div class="circleContainer">
           <h6 class="logo ir ">Forks</h6>
 
-          <div id="circleForks" class="circle profitCircle" style="width: -25px; height: -25px; left:-12.5px; top:-12.5px;">
+          <div id="circleForks" class="circle profitCircle" style="width: 0; height: 0; left:0; top:0;">
           </div>
           <div id="circleForksBg" class="circle revenueCircle small" style="width: 40px; height: 40px; left:-20px; top:-20px;">
           </div>
           <div class="numberContainer">
             <span class="number profit ">Forks: <strong id="counterForks" data-circle="circleForks">0</strong></span>
             <br>
-            <span class="number revenue "></strong></span>
+            <span class="number revenue "></span>
             <br>
           </div>
         </div>
@@ -93,18 +93,18 @@
           <h6 class="logo ir ">Issues</h6>
 
           <div class="circle profitCircle"
-               style="width: 200px; height: 200px; left:-100px; top:-100px;"
+               style="width: 0; height: 0; left:0; top:0;"
                id="circleIssues"
           >
           </div>
           <div class="circle revenueCircle "
-               style="width: 400px; height: 400px; left:-200px; top:-200px;"
+               style="width: 247.442px; height: 247.442px; left:-123.721px; top:-123.721px;"
                id="circleIssuesBg">
           </div>
           <div class="numberContainer">
-            <span class="number profit ">Issues: <strong id="counterIssues" data-circle="circleIssues">48</strong></span>
+            <span class="number profit ">Issues: <strong id="counterIssues" data-circle="circleIssues">0</strong></span>
             <br>
-            <span class="number revenue "></strong></span>
+            <span class="number revenue "></span>
             <br>
           </div>
         </div>
@@ -112,28 +112,93 @@
     </ul>
   </div>
 
-  <canvas id="myChart" width="600" height="200" style="display:inline-block;background-color:#fff"></canvas>
-  <canvas id="myChartBis" width="200" height="200"></canvas>
-
-  <h1 id="compteur" style="text-align:center">0</h1>
-
-
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
   <script>
 
-      var valCompteurInc = 12;
-      var counterActivities = 25;
-      var counterRepositories = 9;
-      var counterForks = 0;
-      var counterIssues = 48;
+      var eventsApiBaseUrl = "http://github-realtime-dashboard.herokuapp.com/events";
 
-      var timerInc = setInterval(update, 1000);
-      var timerInc = setInterval(afficherTemps, 1000);
+
+      /// Activités
+      var counterActivities;
+      var nbWatchedEvents;
+      getNbOfEvents("CreateEvent", function(val){
+          nbWatchedEvents = val / 3600;
+          counterActivities = 0;
+          setInterval(updateCreateEvent, 1000);
+      });
+
+
+      /// Repositories
+      var nbCreatedRepositories;
+      var counterRepositories;
+      getNbOfEvents("WatchEvent", function(val){
+          nbCreatedRepositories = val / 3600;
+          counterRepositories = 0;
+          setInterval(updateCreatedRepositories, 1000);
+      });
+
+
+      /// Forks
+      var nbCreatedForks;
+      var counterForks;
+      getNbOfEvents("ForkEvent", function(val){
+          nbCreatedForks = val / 3600;
+          counterForks = 0;
+          setInterval(updateCreatedForks, 1000);
+      });
+
+
+      /// Issues
+      var nbCreatedIssues;
+      var counterIssues;
+      getNbOfEvents("IssuesEvent", function(val){
+          nbCreatedIssues = val / 3600;
+          counterIssues = 0;
+          setInterval(updateCreatedIssues, 1000);
+      });
+
+      var timerIncTemps = setInterval(afficherTemps, 1000);
 
       var tempsSec = 0;
       var tempsMin = 0;
+
+      function getNbOfEvents(type, callback) {
+
+          try{
+
+              if (!type) {
+                  $.get(eventsApiBaseUrl, function (data, status) {
+                      console.log("Querying " + eventsApiBaseUrl + "-count");
+                      console.log("Status " + status);
+                      //console.log("Result : " + data);
+
+                      if (status == 'success') {
+
+                          callback(data);
+                      }
+
+
+                  });
+              }
+
+              var countEventsNamespace = "-count-by-type/";
+
+
+              $.get(eventsApiBaseUrl + countEventsNamespace + type, function (data, status) {
+                  console.log("Querying " + eventsApiBaseUrl + countEventsNamespace + type);
+                  console.log("Status " + status);
+                  console.log("Result : " + data);
+
+                  if (status == 'success') {
+                      callback(data);
+                  }
+
+              });
+          }catch(err){
+              return 0;
+          }
+      }
 
       function afficherTemps() {
           tempsSec += 1;
@@ -153,17 +218,26 @@
           $('#counter_min_2').html(stringMin[0]);
       }
 
-      function update() {
-          counterActivities += 25;
-          counterRepositories += 9;
-          counterForks += 3;
-          counterIssues += 48;
-
+      function updateCreateEvent(){
+          counterActivities += nbWatchedEvents;
           smoothValue($('#counterActivities'), counterActivities, 300);
-          smoothValue($('#counterRepositories'), counterRepositories, 150);
-          smoothValue($('#counterForks'), counterForks, 100);
-          smoothValue($('#counterIssues'), counterIssues, 1000);
       }
+
+      function updateCreatedRepositories(){
+          counterRepositories += nbCreatedRepositories;
+          smoothValue($('#counterRepositories'), counterRepositories, 150);
+      }
+
+      function updateCreatedForks(){
+          counterForks += nbCreatedForks;
+          smoothValue($('#counterForks'), counterForks, 100);
+      }
+
+      function updateCreatedIssues(){
+          counterIssues += nbCreatedIssues;
+          smoothValue($('#counterIssues'), counterIssues, 300);
+      }
+
 
       function smoothValue(id, newVal, maxSize) {
 
@@ -192,204 +266,12 @@
           });
       }
 
-
-      //    ########################################
-      //    Pour les occurences de commit par heures
-      //    ########################################
-
-      var ctx = document.getElementById("myChart").getContext("2d");
-      var hours = new Array();
-      var commits = new Array();
-
-      for (i = 0; i < 24; i++) {
-          hours.push(i + "h");
-      }
-
-      hours.forEach(function () {
-
-          // TODO : aller chercher les vrais valeurs pour chaque tranche horaire
-          commits.push((Math.random() * 1000) + 1);
-      });
-      var data = {
-          labels: hours,
-          datasets: [
-              {
-                  label: "Nombre de commit par heure",
-                  fillColor: "rgba(151,187,205,0.2)",
-                  strokeColor: "rgba(151,187,205,1)",
-                  pointColor: "rgba(151,187,205,1)",
-                  pointStrokeColor: "#fff",
-                  pointHighlightFill: "#fff",
-                  pointHighlightStroke: "rgba(151,187,205,1)",
-                  data: commits
-              }
-          ]
-      };
-      var myLineChart = new Chart(ctx).Line(data, {bezierCurve: false});
-
-
-      //    ####################################
-      //    Pour le nombre d'évennement par type
-      //    ####################################
-
-      ctx = document.getElementById("myChartBis").getContext("2d");
-
-      // TODO : mettre en dur les noms des différents types d'event
-      // TODO : ajouter en dynamique le nombre d'occurences de chaque type d'event
-      var data = [
-          {
-              value: 300,
-              color: "#F7464A",
-              highlight: "#FF5A5E",
-              label: "Red"
-          },
-          {
-              value: 50,
-              color: "#46BFBD",
-              highlight: "#5AD3D1",
-              label: "Green"
-          },
-          {
-              value: 100,
-              color: "#FDB45C",
-              highlight: "#FFC870",
-              label: "Yellow"
-          }
-      ]
-
-      var myPieChart = new Chart(ctx).Pie(data, {animateScale: true});
-
-
   </script>
-
-
-  <canvas id="myChart" width="800" height="400"></canvas>
-  <canvas id="myChartBis" width="800" height="400"></canvas>
-
-  <h2>Dashboard</h2>
 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
-  <script>
-      var $globalLoader = $("#global-loader");
 
-      // Display loading screen
-      $globalLoader.show();
-
-      var eventsApiBaseUrl = "http://localhost:3000/events";
-
-      var nbEvents = getNbOfEvents(null);
-      if (nbEvents == 0) {
-          alert("Error while loading data. Please retry later");
-      }
-
-      var nbCreatedRepositories = getNbOfEvents("Repository");
-      var nbWatchedEvents = getNbOfEvents("WatchEvent");
-      var nbCreatedForks = getNbOfEvents("Fork");
-      var nbCreatedIssues = getNbOfEvents("Issue");
-
-      // Hide loading screen once events are loaded
-      $globalLoader.hide();
-
-      function getNbOfEvents(type) {
-          if (!type) {
-              return $.get(eventsApiBaseUrl, function (data, status) {
-                  console.log("Querying " + eventsApiBaseUrl + "-count");
-                  console.log("Status " + status);
-                  console.log("Result : " + data);
-
-                  if (status == 'success') {
-                      return data;
-                  }
-
-                  return 0;
-              });
-          }
-
-          var countEventsNamespace = "-count-by-type/";
-
-          $.get(eventsApiBaseUrl + countEventsNamespace + type, function (data, status) {
-              console.log("Querying " + eventsApiBaseUrl + countEventsNamespace + type);
-              console.log("Status " + status);
-              console.log("Result : " + data);
-
-              if (status == 'success') {
-                  return data;
-              }
-
-              return 0;
-          });
-      }
-
-
-      //    ########################################
-      //    Pour les occurences de commit par heures
-      //    ########################################
-
-      var ctx = document.getElementById("myChart").getContext("2d");
-      var hours = new Array();
-      var commits = new Array();
-
-      for (i = 0; i < 24; i++) {
-          hours.push(i + "h");
-      }
-
-      hours.forEach(function () {
-
-          // TODO : aller chercher les vrais valeurs pour chaque tranche horaire
-          commits.push((Math.random() * 1000) + 1);
-      });
-      var data = {
-          labels: hours,
-          datasets: [
-              {
-                  label: "Nombre de commit par heure",
-                  fillColor: "rgba(151,187,205,0.2)",
-                  strokeColor: "rgba(151,187,205,1)",
-                  pointColor: "rgba(151,187,205,1)",
-                  pointStrokeColor: "#fff",
-                  pointHighlightFill: "#fff",
-                  pointHighlightStroke: "rgba(151,187,205,1)",
-                  data: commits
-              }
-          ]
-      };
-      var myLineChart = new Chart(ctx).Line(data, {bezierCurve: false});
-
-
-      //    ####################################
-      //    Pour le nombre d'�vennement par type
-      //    ####################################
-
-      ctx = document.getElementById("myChartBis").getContext("2d");
-
-      // TODO : mettre en dur les noms des diff�rents types d'event
-      // TODO : ajouter en dynamique le nombre d'occurences de chaque type d'event
-      var data = [
-          {
-              value: 300,
-              color: "#F7464A",
-              highlight: "#FF5A5E",
-              label: "Javascript"
-          },
-          {
-              value: 100,
-              color: "#46BFBD",
-              highlight: "#5AD3D1",
-              label: "Java"
-          },
-          {
-              value: 70,
-              color: "#FDB45C",
-              highlight: "#FFC870",
-              label: "Ruby"
-          }
-      ]
-
-      var myPieChart = new Chart(ctx).Pie(data, {animateScale: true});
-
-
-  </script>
+</div>
 </body>
 </html>
