@@ -284,10 +284,10 @@
           alert("Error while loading data. Please retry later");
       }
 
-      var nbCreatedRepositories = getNbOfEvents("Repository");
+      var nbCreatedRepositories = getNbOfEvents("CreateRepositoryEvent");
       var nbWatchedEvents = getNbOfEvents("WatchEvent");
-      var nbCreatedForks = getNbOfEvents("Fork");
-      var nbCreatedIssues = getNbOfEvents("Issue");
+      var nbCreatedForks = getNbOfEvents("ForkEvent");
+      var nbCreatedIssues = getNbOfEvents("IssueEvent");
 
       // Hide loading screen once events are loaded
       $globalLoader.hide();
